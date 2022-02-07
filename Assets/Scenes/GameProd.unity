@@ -1615,7 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de30a4895606374f9b58f556a4d9415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelCount: 2
+  panelCount: 14
   panelOffset: 100
   panelOffsetScale: 10
   scaleOffset: 2
@@ -1626,6 +1626,8 @@ MonoBehaviour:
   pansPos: []
   selectedPanelID: 0
   scrollRect: {fileID: 176307863}
+  allowScrollingThrough: 1
+  minInertiaCap: 1000
 --- !u!1 &1149471178
 GameObject:
   m_ObjectHideFlags: 0
