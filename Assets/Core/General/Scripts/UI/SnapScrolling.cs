@@ -29,8 +29,6 @@ public class SnapScrolling : MonoBehaviour
         private GameObject[] instPans;
         private Vector2[] pansPos;
         private Vector2[] pansScale;
-    
-        [SerializeField] private int selectedPanelID;
         
         public bool allowScrollingThrough;
         public bool changePanelsScale;
@@ -47,11 +45,11 @@ public class SnapScrolling : MonoBehaviour
         private float startingScrollPos;
         private float endingScrollPos;
 
-        public float lightScrollMinMoveInPercents = 0.2f;
-        [ReadOnly] private float lightScrollMinMove = 200f;
-        [ReadOnly] private float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
-
-        [SerializeField] private bool lightScrollPerforming;
+        [Range(0f, 1f)] public float lightScrollMinMoveInPercents = 0.2f;
+        [ReadOnly][SerializeField] private int selectedPanelID;
+        [ReadOnly][SerializeField] private float lightScrollMinMove = 200f;
+        [ReadOnly][SerializeField] private float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
+        [ReadOnly][SerializeField] private bool lightScrollPerforming;
         
         void Start()
         {

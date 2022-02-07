@@ -1624,12 +1624,14 @@ MonoBehaviour:
   scaleY_adding: 0
   panelPrefab: {fileID: 7288415279977033304, guid: 957fda8f64f62fb4bb3520dfb7af857b, type: 3}
   scrollRect: {fileID: 176307863}
-  selectedPanelID: 0
-  allowScrollingThrough: 0
+  allowScrollingThrough: 1
   changePanelsScale: 0
   minMaxPanelsScale: {x: 0.95, y: 1}
   minInertiaCap: 1000
   lightScrollMinMoveInPercents: 0.2
+  selectedPanelID: 0
+  lightScrollMinMove: 200
+  lightScrollMaxMove: 500
   lightScrollPerforming: 0
 --- !u!1 &1149471178
 GameObject:
