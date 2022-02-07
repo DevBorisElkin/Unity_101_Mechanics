@@ -1620,18 +1620,16 @@ MonoBehaviour:
   panelOffsetScale: 10
   scaleOffset: 2
   snapSpeed: 17.2
-  scaleSpeed: 2
-  scaleY_adding: 0.2
+  scaleSpeed: 8
+  scaleY_adding: 0
   panelPrefab: {fileID: 7288415279977033304, guid: 957fda8f64f62fb4bb3520dfb7af857b, type: 3}
-  pansPos: []
-  selectedPanelID: 0
   scrollRect: {fileID: 176307863}
+  selectedPanelID: 0
   allowScrollingThrough: 0
+  changePanelsScale: 0
+  minMaxPanelsScale: {x: 0.95, y: 1}
   minInertiaCap: 1000
-  panelBalanced: 0
   lightScrollMinMoveInPercents: 0.2
-  lightScrollMinMove: 111
-  lightScrollMaxMove: 333
   lightScrollPerforming: 0
 --- !u!1 &1149471178
 GameObject:

@@ -33,6 +33,9 @@ public class SnapScrolling : MonoBehaviour
         [SerializeField] private int selectedPanelID;
         
         public bool allowScrollingThrough;
+        public bool changePanelsScale;
+
+        public Vector2 minMaxPanelsScale = new Vector2(0.9f, 1f);
         public float minInertiaCap = 400;
         
         private bool panelBalanced;
@@ -120,11 +123,12 @@ public class SnapScrolling : MonoBehaviour
          
          void ManageScaling()
          {
+             if(!changePanelsScale) return;
              for(int i = 0; i<panelCount; i++)
              {
                  float distance = Math.Abs(contentRect.anchoredPosition.x - pansPos[i].x);
                  
-                 float scale = Mathf.Clamp(1 / (distance / panelOffsetScale) * scaleOffset, 0.5f, 1f);
+                 float scale = Mathf.Clamp(1 / (distance / panelOffsetScale) * scaleOffset, minMaxPanelsScale.x, minMaxPanelsScale.y);
                  pansScale[i].x = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.fixedDeltaTime);
                  pansScale[i].y = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.fixedDeltaTime);
                  instPans[i].transform.localScale = pansScale[i];
