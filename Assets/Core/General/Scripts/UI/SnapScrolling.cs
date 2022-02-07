@@ -29,6 +29,7 @@ public class SnapScrolling : MonoBehaviour
     
         [Header("Other objects")]
         public GameObject panelPrefab;
+        private RectTransform panelRectTransform;
     
         private RectTransform contentRect;
         private Vector2 contentVector;
@@ -48,12 +49,29 @@ public class SnapScrolling : MonoBehaviour
         public bool allowScrollingThrough;
         public float minInertiaCap = 400;
         
+        private Action AutoScroll_PanelArrived;
+        
+        [SerializeField] private bool panelBalanced;
+            
+        private Action<float> LightScrollDetected;
+
+        private float startingScrollPos;
+        private float endingScrollPos;
+
+        public float lightScrollMinMoveInPercents = 0.2f;
+        public float lightScrollMinMove = 200f;
+        public float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
+
+        [SerializeField] private bool lightScrollPerforming;
+        
         void Start()
         {
             contentRect = GetComponent<RectTransform>();
             instPans = new GameObject[panelCount];
             pansPos = new Vector2[panelCount];
             pansScale = new Vector2[panelCount];
+            panelRectTransform = panelPrefab.GetComponent<RectTransform>();
+            SetLightScrollMinMaxMove();
             
             for(int i=0; i< panelCount; i++)
             {
@@ -62,7 +80,7 @@ public class SnapScrolling : MonoBehaviour
                 ApplyData(i);
         
                 if (i == 0) continue;
-                instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + panelPrefab.GetComponent<RectTransform>().sizeDelta.x + panelOffset,
+                instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + panelRectTransform.sizeDelta.x + panelOffset,
                      instPans[i].transform.localPosition.y);
                 pansPos[i] = new Vector2((-instPans[i].GetComponent<RectTransform>().sizeDelta.x - panelOffset) * i, 0f);
             }
@@ -119,9 +137,6 @@ public class SnapScrolling : MonoBehaviour
                     PerformAutoScroll();
             }
 
-            
-            
-            
             void CapInertiaOnBorders()
             {
                 if(lightScrollPerforming) return;
@@ -165,8 +180,6 @@ public class SnapScrolling : MonoBehaviour
 
             bool ManageScrollingMinSpeed()
             {
-                if(lightScrollPerforming) return true;
-                
                 float scrollVelocity = Mathf.Abs(scrollRect.velocity.x);
                 if (allowScrollingThrough)
                 {
@@ -176,6 +189,7 @@ public class SnapScrolling : MonoBehaviour
                         scrollRect.velocity = Vector2.zero;
                         return true;
                     }
+                    else if (lightScrollPerforming) return false;
                     else if (isScrolling || scrollVelocity > minInertiaCap)
                         return false;
                 }
@@ -188,7 +202,6 @@ public class SnapScrolling : MonoBehaviour
                 return true;
             }
 
-            private Action AutoScroll_PanelArrived;
             void PerformAutoScroll()
             {
                 if(panelBalanced) return;
@@ -204,25 +217,16 @@ public class SnapScrolling : MonoBehaviour
             }
             public void Scrolling(bool scroll)
             {
-                if (scroll) panelBalanced = false;
+                if (scroll)
+                    panelBalanced = false;
+                else lightScrollPerforming = false;
+
                 isScrolling = scroll;
                 if (scroll && allowScrollingThrough) scrollRect.inertia = true;
                 
                 CheckLightScroll(scroll);
             }
 
-            [SerializeField] private bool panelBalanced;
-            
-            private Action<float> LightScrollDetected;
-
-            private float startingScrollPos;
-            private float endingScrollPos;
-
-            public float lightScrollMinMove = 200f;
-            public float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
-
-            [SerializeField] private bool lightScrollPerforming;
-            
             void CheckLightScroll(bool scroll)
             {
                 if (scroll) startingScrollPos = contentRect.position.x;
@@ -253,6 +257,12 @@ public class SnapScrolling : MonoBehaviour
                     LightScrollDetected -= OnLightScroll;
                     AutoScroll_PanelArrived += OnAutoScrollPanelArrived;
                 }
+            }
+
+            void SetLightScrollMinMaxMove()
+            {
+                lightScrollMinMove = (panelRectTransform.sizeDelta.x * lightScrollMinMoveInPercents);
+                lightScrollMaxMove = (panelRectTransform.sizeDelta.x + panelOffset) / 2f;
             }
 
             void OnLightScroll(float delta)
