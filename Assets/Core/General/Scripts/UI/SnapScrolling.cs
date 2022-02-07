@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,6 +66,10 @@ public class SnapScrolling : MonoBehaviour
                      instPans[i].transform.localPosition.y);
                 pansPos[i] = new Vector2((-instPans[i].GetComponent<RectTransform>().sizeDelta.x - panelOffset) * i, 0f);
             }
+            
+            //scrollRect.onValueChanged.AddListener(_ => { Debug.Log($"Scroll rect on value changed: {_}"); });
+            
+            SubscribeToScrollingEvents(true);
         }
         
         void ApplyData(int i)
@@ -114,8 +119,13 @@ public class SnapScrolling : MonoBehaviour
                     PerformAutoScroll();
             }
 
+            
+            
+            
             void CapInertiaOnBorders()
             {
+                if(lightScrollPerforming) return;
+                
                 if(!isScrolling && (contentRect.anchoredPosition.x >=pansPos[0].x || contentRect.anchoredPosition.x <= pansPos[pansPos.Length - 1].x))
                     scrollRect.inertia = false;
             }
@@ -137,6 +147,8 @@ public class SnapScrolling : MonoBehaviour
             
             void SelectNearestPanelId()
             {
+                if(lightScrollPerforming) return;
+                
                 float nearestPos = float.MaxValue;
                 int closestPanId = 0;
                 for (int i = 0; i < panelCount; i++)
@@ -153,6 +165,8 @@ public class SnapScrolling : MonoBehaviour
 
             bool ManageScrollingMinSpeed()
             {
+                if(lightScrollPerforming) return true;
+                
                 float scrollVelocity = Mathf.Abs(scrollRect.velocity.x);
                 if (allowScrollingThrough)
                 {
@@ -160,6 +174,7 @@ public class SnapScrolling : MonoBehaviour
                     {
                         scrollRect.inertia = false;
                         scrollRect.velocity = Vector2.zero;
+                        return true;
                     }
                     else if (isScrolling || scrollVelocity > minInertiaCap)
                         return false;
@@ -173,14 +188,96 @@ public class SnapScrolling : MonoBehaviour
                 return true;
             }
 
+            private Action AutoScroll_PanelArrived;
             void PerformAutoScroll()
             {
-                contentVector.x = Mathf.SmoothStep(contentRect.anchoredPosition.x, pansPos[selectedPanelID].x, snapSpeed*Time.fixedDeltaTime);
+                if(panelBalanced) return;
+                
+                contentVector.x = Mathf.Lerp(contentRect.anchoredPosition.x, pansPos[selectedPanelID].x, snapSpeed*Time.fixedDeltaTime);
                 contentRect.anchoredPosition = contentVector;
+                
+                if (Mathf.Abs(contentRect.anchoredPosition.x - pansPos[selectedPanelID].x) < 0.5f)
+                {
+                    AutoScroll_PanelArrived?.Invoke();
+                    panelBalanced = true;
+                }
             }
             public void Scrolling(bool scroll)
             {
+                if (scroll) panelBalanced = false;
                 isScrolling = scroll;
                 if (scroll && allowScrollingThrough) scrollRect.inertia = true;
+                
+                CheckLightScroll(scroll);
+            }
+
+            [SerializeField] private bool panelBalanced;
+            
+            private Action<float> LightScrollDetected;
+
+            private float startingScrollPos;
+            private float endingScrollPos;
+
+            public float lightScrollMinMove = 200f;
+            public float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
+
+            [SerializeField] private bool lightScrollPerforming;
+            
+            void CheckLightScroll(bool scroll)
+            {
+                if (scroll) startingScrollPos = contentRect.position.x;
+                else endingScrollPos = contentRect.position.x;
+                
+                if(scroll) return;
+
+                float scrollResult = endingScrollPos - startingScrollPos;
+
+                float absScrollResult = Mathf.Abs(scrollResult);
+
+                Debug.Log($"absScrollResult [{absScrollResult}]");
+                if (absScrollResult >= lightScrollMinMove && absScrollResult < lightScrollMaxMove)
+                {
+                    LightScrollDetected?.Invoke(scrollResult);
+                }
+            }
+
+            void SubscribeToScrollingEvents(bool state)
+            {
+                if (state)
+                {
+                    LightScrollDetected += OnLightScroll;
+                    AutoScroll_PanelArrived += OnAutoScrollPanelArrived;
+                }
+                else
+                {
+                    LightScrollDetected -= OnLightScroll;
+                    AutoScroll_PanelArrived += OnAutoScrollPanelArrived;
+                }
+            }
+
+            void OnLightScroll(float delta)
+            {
+                Debug.Log("OnLightScroll " + delta);
+                lightScrollPerforming = true;
+                if (delta < 0 && selectedPanelID + 1 < panelCount) selectedPanelID++;
+                else if (delta > 0 && selectedPanelID - 1 >= 0) selectedPanelID--;
+                //ResetPerformingLightScroll();
+            }
+
+            //async void ResetPerformingLightScroll()
+            //{
+            //    await Task.Delay(1000);
+            //    lightScrollPerforming = false;
+            //}
+
+            void OnAutoScrollPanelArrived()
+            {
+                Debug.Log($"<b><color=#f61254>[OnAutoScrollPanelArrived]</color></b>");
+                lightScrollPerforming = false;
+            }
+
+            private void OnDestroy()
+            {
+                SubscribeToScrollingEvents(false);
             }
 }

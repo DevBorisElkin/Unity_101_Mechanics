@@ -1626,8 +1626,10 @@ MonoBehaviour:
   pansPos: []
   selectedPanelID: 0
   scrollRect: {fileID: 176307863}
-  allowScrollingThrough: 1
+  allowScrollingThrough: 0
   minInertiaCap: 1000
+  lightScrollMinMove: 200
+  lightScrollMaxMove: 450
 --- !u!1 &1149471178
 GameObject:
   m_ObjectHideFlags: 0
