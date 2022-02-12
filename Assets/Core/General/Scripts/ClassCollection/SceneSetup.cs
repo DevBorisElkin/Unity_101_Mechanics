@@ -13,8 +13,8 @@ namespace Unity_101_Mechanics.ClassCollection
         [SerializeField] private Sprite _previewSprite;
         [SerializeField] private GameObject _scenePrefab;
 
-        public int Index { get => _index; private set => _index = value; }
-        public string Description { get => _description; private set => _description = value; }
+        public int Index { get => _index; set => _index = value; }
+        public string Description { get => _description; set => _description = value; }
         public Sprite PreviewSprite { get => _previewSprite; private set => _previewSprite = value; }
         public GameObject ScenePrefab { get => _scenePrefab; private set => _scenePrefab = value; }
     }

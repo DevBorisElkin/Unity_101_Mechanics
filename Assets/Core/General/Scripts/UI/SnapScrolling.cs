@@ -124,7 +124,7 @@ public class SnapScrolling : MonoBehaviour
 
          void CapInertiaOnBorders()
          {
-             if(lightScrollPerforming) return;
+             //if(lightScrollPerforming) return;
              
              if(!isScrolling && (contentRect.anchoredPosition.x >=pansPos[0].x || contentRect.anchoredPosition.x <= pansPos[pansPos.Length - 1].x))
                  scrollRect.inertia = false;
@@ -223,7 +223,7 @@ public class SnapScrolling : MonoBehaviour
 
              float absScrollResult = Mathf.Abs(scrollResult);
 
-             Debug.Log($"absScrollResult [{absScrollResult}]");
+             //Debug.Log($"absScrollResult [{absScrollResult}]");
              if (absScrollResult >= lightScrollMinMove && absScrollResult < lightScrollMaxMove)
              {
                  LightScrollDetected?.Invoke(scrollResult);
@@ -252,7 +252,7 @@ public class SnapScrolling : MonoBehaviour
 
          void OnLightScroll(float delta)
          {
-             Debug.Log("OnLightScroll " + delta);
+             //Debug.Log("OnLightScroll " + delta);
              lightScrollPerforming = true;
              if (delta < 0 && selectedPanelID + 1 < panelCount) selectedPanelID++;
              else if (delta > 0 && selectedPanelID - 1 >= 0) selectedPanelID--;
@@ -267,7 +267,7 @@ public class SnapScrolling : MonoBehaviour
 
          void OnAutoScrollPanelArrived()
          {
-             Debug.Log($"<b><color=#f61254>[OnAutoScrollPanelArrived]</color></b>");
+             //Debug.Log($"<b><color=#f61254>[OnAutoScrollPanelArrived]</color></b>");
              lightScrollPerforming = false;
          }
 

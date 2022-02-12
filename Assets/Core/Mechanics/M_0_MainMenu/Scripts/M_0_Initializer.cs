@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity_101_Mechanics.ClassCollection;
 using UnityEngine;
 
 public class M_0_Initializer : MonoBehaviour
@@ -9,6 +11,8 @@ public class M_0_Initializer : MonoBehaviour
 
     public void Awake()
     {
-        snapScrolling.SetUp(MainManager.Instance.mainController.sceneSetups);
+        List<SceneSetup> initialSetups = new List<SceneSetup>();
+        initialSetups.InsertRange(0, MainManager.Instance.mainController.sceneSetups.Where(a => a.Index > 0).ToList());
+        snapScrolling.SetUp(initialSetups);
     }
 }

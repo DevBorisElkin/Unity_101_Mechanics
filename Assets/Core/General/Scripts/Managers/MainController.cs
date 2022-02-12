@@ -17,6 +17,18 @@ public class MainController : MonoBehaviour
         ManageSubscriptions(true);
     }
 
+    private void OnValidate()
+    {
+        if (sceneSetups == null || sceneSetups.Count < 0) return;
+
+        for (int i = 0; i < sceneSetups.Count; i++)
+        {
+            sceneSetups[i].Index = i;
+            if (string.IsNullOrEmpty(sceneSetups[i].Description))
+                sceneSetups[i].Description = $"Mechanic {i}";
+        }
+    }
+
     void ManageSubscriptions(bool state)
     {
         if (state)
