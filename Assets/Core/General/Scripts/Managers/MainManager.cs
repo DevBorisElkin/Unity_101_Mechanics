@@ -5,8 +5,8 @@ using UnityEngine.Serialization;
 
 public class MainManager : PersistentSingleton<MainManager>
 {
-    //[HideInInspector]
     public MainController mainController;
+    public PrefabsManager prefabsManager;
     
     protected override void Awake() {
         base.Awake();
@@ -16,5 +16,6 @@ public class MainManager : PersistentSingleton<MainManager>
     void InitializeManagers()
     {
         mainController = GetComponentInChildren<MainController>();
+        prefabsManager = GetComponentInChildren<PrefabsManager>();
     }
 }

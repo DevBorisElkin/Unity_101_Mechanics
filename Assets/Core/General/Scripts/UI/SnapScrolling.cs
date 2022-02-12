@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using Unity_101_Mechanics.ClassCollection;
 
 public class SnapScrolling : MonoBehaviour
 {
-    [Range(1,100)]
+        [Range(1,100)]
         [Header("Controllers")]
         public int panelCount;
         [Range(-500, 500)] public int panelOffset;
@@ -19,14 +20,13 @@ public class SnapScrolling : MonoBehaviour
         [Range(0, 1)] public float scaleY_adding;
     
         [Header("Other objects")]
-        public GameObject panelPrefab;
         private RectTransform panelRectTransform;
     
         public ScrollRect scrollRect;
         private RectTransform contentRect;
         private Vector2 contentVector;
     
-        private GameObject[] instPans;
+        private SnapScrollingItem[] instPans;
         private Vector2[] pansPos;
         private Vector2[] pansScale;
         
@@ -50,11 +50,19 @@ public class SnapScrolling : MonoBehaviour
         [ReadOnly][SerializeField] private float lightScrollMinMove = 200f;
         [ReadOnly][SerializeField] private float lightScrollMaxMove = 500f;  // should be halth of the panel and spacing
         [ReadOnly][SerializeField] private bool lightScrollPerforming;
+
+        private bool initialized;
         
-        void Start()
+        public void SetUp(List<SceneSetup> setups)
         {
+            var panelPrefab = MainManager.Instance.prefabsManager.snapScrollingItem_prefab;
+            int canHoldItems = panelPrefab.canHoldItems;
+
+            panelCount = setups.Count / canHoldItems;
+            if (setups.Count % canHoldItems != 0) panelCount += 1;
+            
             contentRect = GetComponent<RectTransform>();
-            instPans = new GameObject[panelCount];
+            instPans = new SnapScrollingItem[panelCount];
             pansPos = new Vector2[panelCount];
             pansScale = new Vector2[panelCount];
             panelRectTransform = panelPrefab.GetComponent<RectTransform>();
@@ -63,8 +71,15 @@ public class SnapScrolling : MonoBehaviour
             for(int i=0; i< panelCount; i++)
             {
                 instPans[i] = Instantiate(panelPrefab, transform, false);
-        
-                ApplyData(i);
+
+                List<SceneSetup> setupsForScrollItem = new List<SceneSetup>();
+                int iteratingFrom = i * canHoldItems;
+                int iteratingUntil = iteratingFrom + canHoldItems;
+                if (iteratingUntil >= setups.Count) iteratingUntil = setups.Count;
+                for (int j = iteratingFrom; j < iteratingUntil; j++)
+                    setupsForScrollItem.Add(setups[j]);
+                
+                instPans[i].SetUp(setupsForScrollItem);
         
                 if (i == 0) continue;
                 instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + panelRectTransform.sizeDelta.x + panelOffset,
@@ -72,17 +87,11 @@ public class SnapScrolling : MonoBehaviour
                 pansPos[i] = new Vector2((-instPans[i].GetComponent<RectTransform>().sizeDelta.x - panelOffset) * i, 0f);
             }
             
-            //scrollRect.onValueChanged.AddListener(_ => { Debug.Log($"Scroll rect on value changed: {_}"); });
-            
             SubscribeToScrollingEvents(true);
+            initialized = true;
         }
-        
-        void ApplyData(int i)
-        {
-           
-        }
-        
-         public void SwapLevel(bool right)
+
+        public void SwapLevel(bool right)
          {   // For some reason works incorrectly
              if (right)
              {
@@ -104,6 +113,8 @@ public class SnapScrolling : MonoBehaviour
 
          void Update()
          {
+             if(!initialized) return;
+             
              CapInertiaOnBorders();
              ManageScaling();
              SelectNearestPanelId();

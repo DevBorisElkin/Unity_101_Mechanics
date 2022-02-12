@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainController: {fileID: 615646310}
+  prefabsManager: {fileID: 1152729943}
 --- !u!4 &189320303
 Transform:
   m_ObjectHideFlags: 0
@@ -399,6 +400,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 615646309}
+  - {fileID: 1152729942}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -440,7 +442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 296.08, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &274531438
@@ -782,7 +784,11 @@ MonoBehaviour:
   sceneSetups:
   - _index: 0
     _description: Main Menu
-    _previewSprite: {fileID: 0}
+    _previewSprite: {fileID: 21300000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
+    _scenePrefab: {fileID: 8134965568535215299, guid: ddd9ab2647c36654b8332af57fe84955, type: 3}
+  - _index: 1
+    _description: Mechanic 1
+    _previewSprite: {fileID: 21300000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
     _scenePrefab: {fileID: 8134965568535215299, guid: ddd9ab2647c36654b8332af57fe84955, type: 3}
 --- !u!1 &890107806
 GameObject:
@@ -1100,6 +1106,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980205583}
   m_CullTransparentMesh: 1
+--- !u!1 &1152729941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152729942}
+  - component: {fileID: 1152729943}
+  m_Layer: 0
+  m_Name: PrefabsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1152729942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152729941}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 189320303}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1152729943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152729941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b524ce221482b484e95f74e6442392b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapScrollingItem_prefab: {fileID: 1675696384967539587, guid: 957fda8f64f62fb4bb3520dfb7af857b, type: 3}
+  snapScrollingSubItem_prefab: {fileID: 7588250366230157932, guid: 0bfab71ea4753d844a62c108d561df15, type: 3}
 --- !u!1 &1527995070
 GameObject:
   m_ObjectHideFlags: 0
