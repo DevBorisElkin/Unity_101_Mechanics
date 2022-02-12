@@ -102,7 +102,7 @@ public class SnapScrolling : MonoBehaviour
          public void SwapToRight() => contentRect.localPosition = new Vector2(contentRect.localPosition.x - 895, contentRect.localPosition.y);
          public void SwapToLeftFull() => contentRect.localPosition = new Vector2(0 + 25000, contentRect.localPosition.y);
 
-         void FixedUpdate()
+         void Update()
          {
              CapInertiaOnBorders();
              ManageScaling();
@@ -127,8 +127,8 @@ public class SnapScrolling : MonoBehaviour
                  float distance = Math.Abs(contentRect.anchoredPosition.x - pansPos[i].x);
                  
                  float scale = Mathf.Clamp(1 / (distance / panelOffsetScale) * scaleOffset, minMaxPanelsScale.x, minMaxPanelsScale.y);
-                 pansScale[i].x = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.fixedDeltaTime);
-                 pansScale[i].y = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.fixedDeltaTime);
+                 pansScale[i].x = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.deltaTime);
+                 pansScale[i].y = Mathf.SmoothStep(instPans[i].transform.localScale.x, scale+scaleY_adding, scaleSpeed * Time.deltaTime);
                  instPans[i].transform.localScale = pansScale[i];
              }
          }
@@ -151,6 +151,7 @@ public class SnapScrolling : MonoBehaviour
              selectedPanelID = closestPanId;
          }
 
+         // returning true will allow to Call AutoScrolling
          bool ManageScrollingMinSpeed()
          {
              float scrollVelocity = Mathf.Abs(scrollRect.velocity.x);
@@ -179,7 +180,7 @@ public class SnapScrolling : MonoBehaviour
          {
              if(panelBalanced) return;
              
-             contentVector.x = Mathf.Lerp(contentRect.anchoredPosition.x, pansPos[selectedPanelID].x, snapSpeed*Time.fixedDeltaTime);
+             contentVector.x = Mathf.Lerp(contentRect.anchoredPosition.x, pansPos[selectedPanelID].x, snapSpeed*Time.deltaTime);
              contentRect.anchoredPosition = contentVector;
              
              if (Mathf.Abs(contentRect.anchoredPosition.x - pansPos[selectedPanelID].x) < 0.5f)
