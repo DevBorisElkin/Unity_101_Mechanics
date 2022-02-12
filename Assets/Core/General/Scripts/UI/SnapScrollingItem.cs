@@ -12,7 +12,7 @@ public class SnapScrollingItem : MonoBehaviour
     {
         for (int i = 0; i < setups.Count; i++)
         {
-            var item = Instantiate(MainManager.Instance.prefabsManager.snapScrollingSubItem_prefab, holderForItems);
+            var item = Instantiate(ManagersHolder.Instance.prefabsManager.snapScrollingSubItem_prefab, holderForItems);
             item.SetUp(setups[i]);
         }
     }

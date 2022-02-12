@@ -65,7 +65,7 @@ public class SnapScrolling : MonoBehaviour
 
         void InitialParams(List<SceneSetup> setups, out int canHoldItems)
         {
-            panelPrefab = MainManager.Instance.prefabsManager.snapScrollingItem_prefab;
+            panelPrefab = ManagersHolder.Instance.prefabsManager.snapScrollingItem_prefab;
             canHoldItems = panelPrefab.canHoldItems;
 
             panelCount = setups.Count / canHoldItems;

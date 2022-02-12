@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class MainManager : PersistentSingleton<MainManager>
+public class ManagersHolder : PersistentSingleton<ManagersHolder>
 {
     public MainController mainController;
     public PrefabsManager prefabsManager;

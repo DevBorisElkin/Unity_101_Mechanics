@@ -7,7 +7,7 @@ public class GameProdLoader : MonoBehaviour
 {
     private void Awake()
     {
-        var mainController = MainManager.Instance.mainController;
+        var mainController = ManagersHolder.Instance.mainController;
         mainController.SceneGotInvoked?.Invoke(mainController.sceneSetups[0]);
     }
 }

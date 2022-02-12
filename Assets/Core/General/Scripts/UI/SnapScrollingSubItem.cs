@@ -24,7 +24,7 @@ public class SnapScrollingSubItem : MonoBehaviour
         button.onClick.AddListener(OnClick_SceneSelected);
     }
 
-    private void OnClick_SceneSelected() => MainManager.Instance.mainController.OpenScene(_setup);
+    private void OnClick_SceneSelected() => ManagersHolder.Instance.mainController.OpenScene(_setup);
 
     private void OnDestroy() => button.onClick.RemoveAllListeners();
 }

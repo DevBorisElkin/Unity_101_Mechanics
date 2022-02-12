@@ -12,7 +12,7 @@ public class M_0_Initializer : MonoBehaviour
     public void Awake()
     {
         List<SceneSetup> initialSetups = new List<SceneSetup>();
-        initialSetups.InsertRange(0, MainManager.Instance.mainController.sceneSetups.Where(a => a.Index > 0).ToList());
+        initialSetups.InsertRange(0, ManagersHolder.Instance.mainController.sceneSetups.Where(a => a.Index > 0).ToList());
         snapScrolling.SetUp(initialSetups);
     }
 }
