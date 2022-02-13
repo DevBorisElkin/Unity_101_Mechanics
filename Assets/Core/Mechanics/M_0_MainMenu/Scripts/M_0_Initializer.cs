@@ -5,7 +5,7 @@ using System.Linq;
 using Unity_101_Mechanics.ClassCollection;
 using UnityEngine;
 
-public class M_0_Initializer : MonoBehaviour
+public class M_0_Initializer : MechanicInitializerBase
 {
     [SerializeField] private SnapScrolling snapScrolling;
 

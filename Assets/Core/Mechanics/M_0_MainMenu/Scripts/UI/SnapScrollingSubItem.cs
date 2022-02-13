@@ -18,8 +18,8 @@ public class SnapScrollingSubItem : MonoBehaviour
     {
         _setup = sceneSetup;
         
-        description.text = _setup.Description;
-        previewSprite.sprite = _setup.PreviewSprite;
+        description.text = _setup.MechanicData.description;
+        previewSprite.sprite = _setup.MechanicData.previewSprite;
         
         button.onClick.AddListener(OnClick_SceneSelected);
     }

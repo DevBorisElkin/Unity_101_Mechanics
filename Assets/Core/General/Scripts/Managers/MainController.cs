@@ -24,8 +24,8 @@ public class MainController : MonoBehaviour
         for (int i = 0; i < sceneSetups.Count; i++)
         {
             sceneSetups[i].Index = i;
-            if (string.IsNullOrEmpty(sceneSetups[i].Description))
-                sceneSetups[i].Description = $"Mechanic {i}";
+            if(sceneSetups[i].MechanicData != null)
+                sceneSetups[i].Description = sceneSetups[i].MechanicData.description;
         }
     }
 
