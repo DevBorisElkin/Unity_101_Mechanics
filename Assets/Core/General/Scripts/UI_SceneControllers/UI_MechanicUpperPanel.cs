@@ -17,6 +17,7 @@ namespace Unity_101_Mechanics.ClassCollection
         
         [Header("Extensive Description")]
         [SerializeField] private Image backgroundExtDescriptionsModalWindow;
+        [SerializeField] [Range(0f, 1f)] private float alphaFullyOpened;
         [SerializeField] private Transform extDescriptionsModalWindow;
         [SerializeField] private TMP_Text extensiveDescription;
         
@@ -41,6 +42,7 @@ namespace Unity_101_Mechanics.ClassCollection
             upperPanel.gameObject.SetActive(true);
             backgroundExtDescriptionsModalWindow.gameObject.SetActive(false);
             extDescriptionsModalWindow.gameObject.SetActive(false);
+            ManageShowHideBtn(false);
 
             description.text = _sceneSetup.MechanicData.description;
             mechanicImage.sprite = _sceneSetup.MechanicData.previewSprite;
@@ -57,7 +59,8 @@ namespace Unity_101_Mechanics.ClassCollection
 
         void SetDescriptionPanelActiveState(bool state)
         {
-            Helpers.Animate_ModalWindowWithBackground(backgroundExtDescriptionsModalWindow, extDescriptionsModalWindow, state, 0.35f, Ease.InExpo);
+            backgroundExtDescriptionsModalWindow.Animate_Background(state, alphaFullyOpened ,0.48f);
+            extDescriptionsModalWindow.Animate_ModalWindow(state, 0.3f, Ease.InCubic);
         }
 
         void SwitchTopPanelVisibleState()
@@ -66,9 +69,10 @@ namespace Unity_101_Mechanics.ClassCollection
             ManageShowHideBtn();
         }
 
-        void ManageShowHideBtn()
+        void ManageShowHideBtn(bool swapValue = true)
         {
-            topState = !topState;
+            if(swapValue)
+                topState = !topState;
             if (topState)
                 showHideBtnTxt.text = "Show";
             else

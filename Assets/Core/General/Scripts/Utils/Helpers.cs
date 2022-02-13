@@ -98,6 +98,41 @@ public static class Helpers
     /// <summary>
     /// returns end value, 1 or 0
     /// </summary>
+    
+    #endregion
+
+    #region  Animate Background
+
+    public static void Animate_Background(this Image background, bool open, float alphaOnOpened, float time)
+    {
+        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open, alphaOnOpened);
+        background.DOFade(endValueBackgroundAlpha, time).OnComplete(() =>
+        {
+            if (!open) background.gameObject.SetActive(false);
+        });
+    }
+    public static void Animate_Background(this Image background, bool open, float alphaOnOpened, float time, Ease ease)
+    {
+        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open, alphaOnOpened);
+        background.DOFade(endValueBackgroundAlpha, time).SetEase(ease).OnComplete(() =>
+        {
+            if (!open) background.gameObject.SetActive(false);
+        });
+    }
+    public static void Animate_Background(this Image background, bool open, float alphaOnOpened, float time, Ease ease, Action onComplete)
+    {
+        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open, alphaOnOpened);
+        background.DOFade(endValueBackgroundAlpha, time).SetEase(ease).OnComplete(() =>
+        {
+            if (!open) background.gameObject.SetActive(false);
+            onComplete?.Invoke();
+        });
+    }
+
+    #endregion
+    
+    #region Helpers for modal window and background animations
+    
     static float PrepareModalWindow(Transform modalWindow, bool open)
     {
         modalWindow.gameObject.SetActive(true);
@@ -105,59 +140,9 @@ public static class Helpers
         float endValue = open? 1f : 0f;
         return endValue;
     }
-    #endregion
-
-    #region Animate Modal Window With Background, Pup In and Out, Fade In And Out 
-
-    public static void Animate_ModalWindowWithBackground(Image background, Transform modalWindow, bool open, float time)
-    {
-        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open);
-        float endValueModalWindow = PrepareModalWindow(modalWindow, open);
-
-        background.DOFade(endValueBackgroundAlpha, time);
-        modalWindow.DOScale(endValueModalWindow, time).OnComplete(() =>
-        {
-            if (!open)
-            {
-                background.gameObject.SetActive(false);
-                modalWindow.gameObject.SetActive(false);
-            }
-        });
-    }
-    public static void Animate_ModalWindowWithBackground(Image background, Transform modalWindow, bool open, float time, Ease ease)
-    {
-        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open);
-        float endValueModalWindow = PrepareModalWindow(modalWindow, open);
-
-        background.DOFade(endValueBackgroundAlpha, time).SetEase(ease);
-        modalWindow.DOScale(endValueModalWindow, time).SetEase(ease).OnComplete(() =>
-        {
-            if (!open)
-            {
-                background.gameObject.SetActive(false);
-                modalWindow.gameObject.SetActive(false);
-            }
-        });
-    }
-    public static void Animate_ModalWindowWithBackground(Image background, Transform modalWindow, bool open, float time, Ease ease, Action onComplete)
-    {
-        float endValueBackgroundAlpha = PrepareModalWindowBackground(background, open);
-        float endValueModalWindow = PrepareModalWindow(modalWindow, open);
-
-        background.DOFade(endValueBackgroundAlpha, time).SetEase(ease);
-        modalWindow.DOScale(endValueModalWindow, time).SetEase(ease).OnComplete(() =>
-        {
-            if (!open)
-            {
-                background.gameObject.SetActive(false);
-                modalWindow.gameObject.SetActive(false);
-            }
-            onComplete?.Invoke();
-        });
-    }
-
+    
     /// <summary>
-    /// Returns Backround Alpha End Value, 1 or 0
+    /// Prepares Background And Returns Backround Alpha End Value, 1 or 0
     /// </summary>
     static float PrepareModalWindowBackground(Image background, bool open)
     {
@@ -167,11 +152,21 @@ public static class Helpers
         background.color = new Color(background.color.r, background.color.g, background.color.b, alphaInitialValue);
         return alphaEndValue;
     }
+    /// <summary>
+    /// Prepares Background And Returns Backround Alpha End Value, [alphaOnOpened] or 0
+    /// </summary>
+    static float PrepareModalWindowBackground(Image background, bool open, float alphaOnOpened)
+    {
+        float alphaInitialValue = open? 0f : alphaOnOpened;
+        float alphaEndValue = open? alphaOnOpened : 0f;
+        background.gameObject.SetActive(true);
+        background.color = new Color(background.color.r, background.color.g, background.color.b, alphaInitialValue);
+        return alphaEndValue;
+    }
     
     #endregion
     
     #endregion
-    
     
     
     #region Unneccessary code but for later use
