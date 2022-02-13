@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,8 @@ namespace Unity_101_Mechanics.ClassCollection
         [SerializeField] private Image mechanicImage;
         
         [Header("Extensive Description")]
-        [SerializeField] private GameObject extDescriptionsModalWindow;
+        [SerializeField] private Image backgroundExtDescriptionsModalWindow;
+        [SerializeField] private Transform extDescriptionsModalWindow;
         [SerializeField] private TMP_Text extensiveDescription;
         
         [Header("Buttons")]
@@ -37,7 +39,8 @@ namespace Unity_101_Mechanics.ClassCollection
             _sceneSetup = sceneSetup;
             
             upperPanel.gameObject.SetActive(true);
-            extDescriptionsModalWindow.SetActive(false);
+            backgroundExtDescriptionsModalWindow.gameObject.SetActive(false);
+            extDescriptionsModalWindow.gameObject.SetActive(false);
 
             description.text = _sceneSetup.MechanicData.description;
             mechanicImage.sprite = _sceneSetup.MechanicData.previewSprite;
@@ -54,7 +57,7 @@ namespace Unity_101_Mechanics.ClassCollection
 
         void SetDescriptionPanelActiveState(bool state)
         {
-            extDescriptionsModalWindow.SetActive(state);
+            Helpers.Animate_ModalWindowWithBackground(backgroundExtDescriptionsModalWindow, extDescriptionsModalWindow, state, 0.35f, Ease.InExpo);
         }
 
         void SwitchTopPanelVisibleState()

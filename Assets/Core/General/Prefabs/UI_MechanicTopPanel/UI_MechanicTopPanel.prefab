@@ -2494,6 +2494,7 @@ MonoBehaviour:
   upperPanel: {fileID: 0}
   description: {fileID: 0}
   mechanicImage: {fileID: 0}
+  backgroundExtDescriptionsModalWindow: {fileID: 0}
   extDescriptionsModalWindow: {fileID: 0}
   extensiveDescription: {fileID: 0}
   backToMenuBtn: {fileID: 0}
@@ -3086,7 +3087,8 @@ MonoBehaviour:
   upperPanel: {fileID: 3538911903857827808}
   description: {fileID: 1226434389002543045}
   mechanicImage: {fileID: 2304600499853591529}
-  extDescriptionsModalWindow: {fileID: 3538911902215155266}
+  backgroundExtDescriptionsModalWindow: {fileID: 3538911902215155269}
+  extDescriptionsModalWindow: {fileID: 3538911902244509434}
   extensiveDescription: {fileID: 3538911903337340287}
   backToMenuBtn: {fileID: 7807243099270495944}
   extensiveDescriptionBtn: {fileID: 7136228100553071977}
