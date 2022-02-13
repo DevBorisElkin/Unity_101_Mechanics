@@ -22,10 +22,14 @@ namespace Unity_101_Mechanics.ClassCollection
         [SerializeField] private Button backToMenuBtn;
         [SerializeField] private Button extensiveDescriptionBtn;
         [SerializeField] private Button closeExtensiveDescrBtn;
+        
         [SerializeField] private Button hideShowTopPanelBtn;
+        [SerializeField] private TMP_Text showHideBtnTxt;
         
         private SceneSetup _mainSceneSetup;
         private SceneSetup _sceneSetup;
+
+        private bool topState;
         
         public void InjectValuesAndInitialize(SceneSetup mainSceneSetup ,SceneSetup sceneSetup)
         {
@@ -55,7 +59,17 @@ namespace Unity_101_Mechanics.ClassCollection
 
         void SwitchTopPanelVisibleState()
         {
-            
+            upperPanel.Animate_TopPanelSlideUpDown(!topState, 0.25f);
+            ManageShowHideBtn();
+        }
+
+        void ManageShowHideBtn()
+        {
+            topState = !topState;
+            if (topState)
+                showHideBtnTxt.text = "Show";
+            else
+                showHideBtnTxt.text = "Hide";
         }
 
         //private void OnDestroy()

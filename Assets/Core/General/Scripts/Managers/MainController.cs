@@ -11,11 +11,7 @@ public class MainController : MonoBehaviour
     public Action<SceneSetup> SceneGotInvoked;
     public List<SceneSetup> sceneSetups;
 
-    private void Awake()
-    {
-        Debug.Log("MainController.Awake();");
-        ManageSubscriptions(true);
-    }
+    private void Awake() => ManageSubscriptions(true);
 
     private void OnValidate()
     {

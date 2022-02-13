@@ -17,9 +17,7 @@ public class BootstrapLoader : MonoBehaviour
     [Space(5f)] public TMP_Text dotsText;
     private async void Start()
     {
-        Debug.Log("Code is here -2");
         InfiniteLoading();
-        Debug.Log("Code is here -1");
         LoadSceneWithDelay();
     }
 
@@ -46,8 +44,6 @@ public class BootstrapLoader : MonoBehaviour
     private async void LoadSceneWithDelay()
     {
         await UniTask.Delay(loadDelayMs);
-        Debug.Log("Should load scene with index 1");
         SceneManager.LoadSceneAsync(1);
-        Debug.Log("Code is here");
     }
 }
