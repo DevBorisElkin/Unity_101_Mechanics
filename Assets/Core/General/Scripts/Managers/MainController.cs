@@ -7,7 +7,7 @@ using Unity_101_Mechanics.ClassCollection;
 
 public class MainController : MonoBehaviour
 {
-    private Transform oldSpawnedContext;
+    private MechanicInitializerBase oldSpawnedContext;
     public Action<SceneSetup> SceneGotInvoked;
     public List<SceneSetup> sceneSetups;
 
@@ -58,7 +58,9 @@ public class MainController : MonoBehaviour
     {
         if(oldSpawnedContext != null) Destroy(oldSpawnedContext.gameObject);
 
-        oldSpawnedContext = Instantiate(setup.ScenePrefab, null).transform;
+        oldSpawnedContext = Instantiate(setup.ScenePrefab, null);
+        if(setup.Index != 0)
+            oldSpawnedContext.InjectValuesAndInitialize(sceneSetups[0], setup);
     }
 
 }
