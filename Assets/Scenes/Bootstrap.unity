@@ -1151,6 +1151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapScrollingItem_prefab: {fileID: 1675696384967539587, guid: 957fda8f64f62fb4bb3520dfb7af857b, type: 3}
   snapScrollingSubItem_prefab: {fileID: 7588250366230157932, guid: 0bfab71ea4753d844a62c108d561df15, type: 3}
+  ui_MechanicUpperPanel_prefab: {fileID: 6073138109752783399, guid: 0cf08443f09ff9c4d9a4fc091dd01e62, type: 3}
 --- !u!1 &1527995070
 GameObject:
   m_ObjectHideFlags: 0
